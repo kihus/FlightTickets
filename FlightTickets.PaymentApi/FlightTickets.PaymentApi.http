@@ -1,0 +1,6 @@
+@FlightTickets.PaymentApi_HostAddress = http://localhost:5127
+
+GET {{FlightTickets.PaymentApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
