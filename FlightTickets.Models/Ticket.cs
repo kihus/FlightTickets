@@ -10,7 +10,6 @@ public class Ticket(
     decimal price
     )
 {
-    [BsonId]
     public ObjectId Id { get; private set; }
     public string PassengerName { get; private set; } = passengerName;
     public string FlightNumber { get; private set; } = flightNumber;
