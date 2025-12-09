@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace FlightTickets.Models;
+namespace FlightTickets.Models.Entities;
 
 public class Ticket(
     string passengerName,
@@ -10,7 +10,7 @@ public class Ticket(
     decimal price
     )
 {
-    public ObjectId Id { get; private set; }
+    public ObjectId Id { get; private set; } = ObjectId.GenerateNewId();
     public string PassengerName { get; private set; } = passengerName;
     public string FlightNumber { get; private set; } = flightNumber;
     public string SeatNumber { get; private set; } = seatNumber;

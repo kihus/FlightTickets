@@ -1,18 +1,21 @@
+using FlightTickets.PaymentApi.Services;
+using FlightTickets.PaymentApi.Services.Interfaces;
+using RabbitMQ.Client;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+builder.Services.AddSingleton<IConnectionFactory>(con =>
+{
+    var factory = new ConnectionFactory { HostName = "localhost" };
+    return factory;
+});
+builder.Services.AddSingleton<IPaymentService, PaymentServices>();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
 
 app.UseHttpsRedirection();
 
