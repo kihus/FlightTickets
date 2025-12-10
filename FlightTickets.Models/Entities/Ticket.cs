@@ -1,5 +1,5 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using FlightTickets.Models.Entities.Enums;
+using MongoDB.Bson;
 
 namespace FlightTickets.Models.Entities;
 
@@ -10,9 +10,10 @@ public class Ticket(
     decimal price
     )
 {
-    public ObjectId Id { get; private set; } = ObjectId.GenerateNewId();
+    public ObjectId Id { get; init; } = ObjectId.GenerateNewId();
     public string PassengerName { get; private set; } = passengerName;
     public string FlightNumber { get; private set; } = flightNumber;
     public string SeatNumber { get; private set; } = seatNumber;
     public decimal Price { get; private set; } = price;
+    public EStatus Status { get; private set; } = EStatus.Pending;
 }

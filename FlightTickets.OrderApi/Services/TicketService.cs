@@ -22,12 +22,7 @@ public class TicketService : ITicketService
                 ticketRequest.Price
                 );
 
-            var factory = new ConnectionFactory 
-            { 
-                HostName = "localhost",
-                UserName = "guest",
-                Password = "guest"
-            };
+            var factory = new ConnectionFactory { HostName = "localhost" };
 
             using var connection = await factory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();
@@ -40,8 +35,7 @@ public class TicketService : ITicketService
                 arguments: null
                 );
 
-
-            var ticketSerialize = JsonSerializer.Serialize(newTicket);
+            var ticketSerialize = JsonSerializer.Serialize(newTicket.ToEvent());
             var body = Encoding.UTF8.GetBytes(ticketSerialize);
 
             await channel.BasicPublishAsync(
@@ -50,7 +44,7 @@ public class TicketService : ITicketService
                 body: body
                 );
 
-            return newTicket.ToDto();
+            return newTicket.ToDto();   
         }
         catch (Exception ex)
         {

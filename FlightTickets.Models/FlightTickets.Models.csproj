@@ -10,9 +10,4 @@
     <PackageReference Include="MongoDB.Bson" Version="3.5.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Messages\Events\" />
-    <Folder Include="Messages\" />
-  </ItemGroup>
-
 </Project>

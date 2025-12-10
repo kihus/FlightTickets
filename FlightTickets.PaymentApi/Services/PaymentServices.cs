@@ -1,5 +1,7 @@
 ﻿using FlightTickets.Models.Dtos;
 using FlightTickets.Models.Entities;
+using FlightTickets.Models.Extensions;
+using FlightTickets.Models.Messages.Events;
 using FlightTickets.PaymentApi.Services.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -37,10 +39,10 @@ public class PaymentServices(
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                var ticket = JsonSerializer.Deserialize<Ticket>(message)
+                var ticket = JsonSerializer.Deserialize<TicketCreatedEvent>(message)
                     ?? throw new Exception("Ticket not found");
 
-                await ValidatePaymentTicket(ticket);
+                await ValidatePaymentTicket(ticket, channel);
                 _logger.LogInformation("Validated ticket!");
             };
 
@@ -57,10 +59,8 @@ public class PaymentServices(
         }
     }
 
-    private async Task ValidatePaymentTicket(Ticket ticket)
+    private async Task ValidatePaymentTicket(TicketCreatedEvent ticket, IChannel channel)
     {
-        using var connection = await _factory.CreateConnectionAsync();
-        using var channel = await connection.CreateChannelAsync();
 
         try
         {
