@@ -1,7 +1,4 @@
-﻿using FlightTickets.Models.Dtos;
-using FlightTickets.Models.Entities;
-using FlightTickets.Models.Extensions;
-using FlightTickets.Models.Messages.Events;
+﻿using FlightTickets.Models.Messages.Events;
 using FlightTickets.PaymentApi.Services.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -10,13 +7,13 @@ using System.Text.Json;
 
 namespace FlightTickets.PaymentApi.Services;
 
-public class PaymentServices(
+public class PaymentService(
     IConnectionFactory factory,
-    ILogger<PaymentServices> logger
+    ILogger<PaymentService> logger
     ) : IPaymentService
 {
     private readonly IConnectionFactory _factory = factory;
-    private readonly ILogger<PaymentServices> _logger = logger;
+    private readonly ILogger<PaymentService> _logger = logger;
 
     public async Task GetTicketsFromQueueAsync()
     {
@@ -42,7 +39,7 @@ public class PaymentServices(
                 var ticket = JsonSerializer.Deserialize<TicketCreatedEvent>(message)
                     ?? throw new Exception("Ticket not found");
 
-                await ValidatePaymentTicket(ticket, channel);
+                await ValidatePaymentTicket(ticket);
                 _logger.LogInformation("Validated ticket!");
             };
 
@@ -59,8 +56,10 @@ public class PaymentServices(
         }
     }
 
-    private async Task ValidatePaymentTicket(TicketCreatedEvent ticket, IChannel channel)
+    private async Task ValidatePaymentTicket(TicketCreatedEvent ticket)
     {
+        using var connection = await _factory.CreateConnectionAsync();
+        using var channel = await connection.CreateChannelAsync();
 
         try
         {

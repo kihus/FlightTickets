@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-
-namespace FlightTickets.Models.Dtos;
+﻿namespace FlightTickets.Models.Dtos;
 
 public class TicketRequestDto
 {

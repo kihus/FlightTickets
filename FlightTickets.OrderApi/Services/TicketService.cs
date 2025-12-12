@@ -2,7 +2,6 @@
 using FlightTickets.Models.Entities;
 using FlightTickets.Models.Extensions;
 using FlightTickets.OrderApi.Services.Interfaces;
-using Microsoft.AspNetCore.Connections;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;

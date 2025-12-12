@@ -13,7 +13,7 @@ builder.Services.AddSingleton<IConnectionFactory>(con =>
     var factory = new ConnectionFactory { HostName = "localhost" };
     return factory;
 });
-builder.Services.AddSingleton<IPaymentService, PaymentServices>();
+builder.Services.AddSingleton<IPaymentService, PaymentService>();
 
 var app = builder.Build();
 

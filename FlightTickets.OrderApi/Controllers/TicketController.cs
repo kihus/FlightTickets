@@ -15,7 +15,7 @@ public class TicketController(
     private readonly ITicketService _ticketService = ticketService;
 
     [HttpPost]
-    public async Task<ActionResult> CreateTicketAsync([FromBody] TicketRequestDto ticket)
+    public async Task<ActionResult<TicketResponseDto>> CreateTicketAsync([FromBody] TicketRequestDto ticket)
     {
         _logger.LogInformation("Creating a new ticket.");
 
